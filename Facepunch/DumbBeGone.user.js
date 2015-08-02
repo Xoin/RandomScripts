@@ -4,7 +4,7 @@
 // @version      0.1
 // @description  Removes Dumb rating
 // @author       Who knows!
-// @match        http://facepunch.com/showthread.php?*
+// @match        http://facepunch.com/showthread.php?t=*
 // @grant        none
 // ==/UserScript==
 
