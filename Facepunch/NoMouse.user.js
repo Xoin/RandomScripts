@@ -21,7 +21,7 @@ var HotForum4 = "";
 var HotForum5 = "";
 
 var SelectionColor = "red";
-var SelectionPrefix = "B====D~~";
+var SelectionPrefix = ">";
 var SelectionPostfix = "<";
 // ^ Edit here ^
 
