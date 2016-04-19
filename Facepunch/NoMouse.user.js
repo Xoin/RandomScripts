@@ -220,7 +220,7 @@ $(function() {
             CurrentThread = PositionCurrent;
             MaxThreads = PositionMax;
             $('a[href="' + $(Threads[CurrentThread]).attr("href") + '"]').css("color", SelectionColor);
-            $('a[href="' + $(Threads[CurrentThread]).attr("href") + '"]').prepend('<span class="prepended">>'+SelectionPrefix+' </span').append('<span class="prepended"> '+SelectionPostfix+'</span');
+            $('a[href="' + $(Threads[CurrentThread]).attr("href") + '"]').prepend('<span class="prepended">'+SelectionPrefix+' </span').append('<span class="prepended"> '+SelectionPostfix+'</span');
         }
 
 
