@@ -12,14 +12,28 @@
 //
 //    // Your code here...
 //})();
+
+var HotForum1 = "";
+var HotForum2 = "";
+var HotForum3 = "";
+var HotForum4 = "";
+var HotForum5 = "";
+
+// Locations
 var Punch = "https://facepunch.com/";
+var ShowThread = "showthread.php";
+var ForumDisplay = "forumdisplay.php";
+var MainForum = "forum.php";
+var Subscribed = "usercp.php";
 
+
+// Navigation
 var Exit = $(".navbit a");
-
+var Pages = $('.pagination_top a');
+var PagesThread = $('.threadpagenav a');
 
 // Thread
 var CurrenPost = 0;
-var Pages = $(".prev_next a");
 var Posts = $(".postbitlegacy");
 var PostsMax = $(".postbitlegacy").length;
 
@@ -32,6 +46,7 @@ var MaxThreads = $('a[id*="thread_title_"]').length;
 var Forums = $(".forums tr .forumtitle a");
 var CurrentForum = 0;
 var MaxForums = $(".forums tr .forumtitle a").length;
+var Typing = false;
 
 function PageScroll(ID) {
     $('html, body').animate({
@@ -43,19 +58,32 @@ function PageLoad(Page) {
     window.location = Punch + Page;
 }
 
+function PageCheck(Page) {
+    if (window.location.href.indexOf(Page) != -1) {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 
 $(document).ready(function() {
-    if (window.location.href.indexOf("showthread.php") != -1) {
+    console.log(Typing);
+    if (PageCheck(ShowThread)) {
+        console.log(location.hash);
         if (location.hash !== "") {
             $(Posts).each(function(index) {
                 if ($(this).attr('id') == location.hash.replace("#post", "post_")) {
                     CurrenPost = index;
+
                 }
+                console.log(CurrenPost+" "+index+" "+$(this).attr('id')+" "+location.hash.replace("#post", "post_"));
             });
         }
         PageScroll($(Posts[CurrenPost]).attr('id'));
     }
-    if (window.location.href.indexOf("forumdisplay.php") != -1) {
+    if (PageCheck(ForumDisplay)||PageCheck(Subscribed)) {
         $('a[href="' + $(Threads[CurrentThread]).attr("href") + '"]').css("color", "red");
     }
     $('a[href="' + $(Forums[CurrentForum]).attr("href") + '"]').css("color", "red");
@@ -67,135 +95,195 @@ $(function() {
     $(window).keypress(function(e) {
         var key = e.which;
         console.log(key);
-        var Typing = false;
-        if ($(document.activeElement).find("textarea").length == 0) {
-            Typing = true;
-        };
-        if (window.location.href.indexOf("showthread.php") != -1 && Typing == false) {
-
-            switch (key) {
-                // Q
-                case 113:
-                    PageLoad($(Exit[Exit.length - 1]).attr("href"));
-                    break;
-                    // D
-                case 100:
-                    $(Pages).each(function(index) {
-                        if ($(this).attr('title').indexOf("Next Page") != -1) {
-                            PageLoad($(this).attr('href'));
-                        }
-                    });
-                    break;
-                    // A
-                case 97:
-                    $(Pages).each(function(index) {
-                        if ($(this).attr('title').indexOf("Prev Page") != -1) {
-                            PageLoad($(this).attr('href'));
-                        }
-                    });
-                    break;
-                    // S
-                case 115:
-                    CurrenPost++;
-                    if (CurrenPost > PostsMax || CurrenPost == PostsMax) {
-                        CurrenPost = 0;
-                    }
-                    break;
-                    // W
-                case 119:
-                    CurrenPost--;
-                    if (CurrenPost < 0) {
-                        CurrenPost = PostsMax - 1;
-                    }
-                    break;
-                    // N
-                case 110:
-                    $(Posts).each(function(index) {
-                        if ($(this).attr('id') == $(".postbitnew").attr("id")) {
-                            CurrenPost = index;
-                        }
-                    });
-                    break;
+        if (PageCheck(ShowThread)) {
+            if (document.activeElement.value !== undefined) {
+                Typing = true;
             }
-            console.log(CurrenPost);
-            if (key == 115 || key == 119 || key == 110) {
-                PageScroll($(Posts[CurrenPost]).attr('id'));
-            }
-        }
-        if (window.location.href.indexOf("forumdisplay.php") != -1) {
-            $('a[href="' + $(Threads[CurrentThread]).attr("href") + '"]').css("color", "");
-            switch (key) {
-                // Return
-                case 13:
-                    PageLoad($(Threads[CurrentThread]).attr("href"));
-                    break;
-                    // S
-                case 115:
-                    CurrentThread++;
-                    if (CurrentThread > MaxThreads || CurrentThread == MaxThreads) {
-                        CurrentThread = 0;
-                    }
-                    break;
-                    // W
-                case 119:
-                    CurrentThread--;
-                    if (CurrentThread < 0) {
-                        CurrentThread = MaxThreads - 1;
-                    }
-                    break;
-                    // D
-                case 100:
-                    $(Pages).each(function(index) {
-                        if ($(this).attr('title').indexOf("Next Page") != -1) {
-                            PageLoad($(this).attr('href'));
-                        }
-                    });
-                    break;
-                    // A
-                case 97:
-                    $(Pages).each(function(index) {
-                        if ($(this).attr('title').indexOf("Prev Page") != -1) {
-                            PageLoad($(this).attr('href'));
-                        }
-                    });
-                    break;
-                    // N
-                case 110:
-                    PageLoad($(Threads[CurrentThread]).attr("href") + "&goto=newpost");
-                    break;
-
-            }
-            $('a[href="' + $(Threads[CurrentThread]).attr("href") + '"]').css("color", "red");
-            console.log(CurrentThread + " " + $(Threads[CurrentThread]).attr("href"));
-            if (key == 97 || key == 113) {
-                PageLoad($(Exit[Exit.length - 1]).attr("href"));
+            else
+            {
+                Typing = false;
             }
         }
 
-        if (window.location.href.indexOf("forum.php") != -1 || window.location.href == "https://facepunch.com/" && Typing == false) {
+        // Unified scroller
+        var PositionCurrent;
+        var PositionMax;
+        var IDList;
+
+        if (PageCheck(ShowThread)) {
+            PositionCurrent = CurrenPost;
+            PositionMax = PostsMax;
+            IDList = Posts;
+        }
+
+        if (PageCheck(MainForum)) {
+            PositionCurrent = CurrentForum;
+            PositionMax = MaxForums;
+            IDList = Forums;
             $('a[href="' + $(Forums[CurrentForum]).attr("href") + '"]').css("color", "");
+        }
+
+        if (PageCheck(ForumDisplay)||PageCheck(Subscribed)) {
+            PositionCurrent = CurrentThread;
+            PositionMax = MaxThreads;
+            IDList = Threads;
+            $('a[href="' + $(Threads[CurrentThread]).attr("href") + '"]').css("color", "");
+        }
+        
+        if (Typing == false)
+        {
+            if (PageCheck(ForumDisplay) || PageCheck(MainForum) || PageCheck(ShowThread)||PageCheck(Subscribed)) {
+                console.log(Typing);
+                switch (key) {
+                        // S
+                    case 115:
+                        PositionCurrent++;
+                        if (PositionCurrent >= PositionMax) {
+                            PositionCurrent = 0;
+                        }
+                        break;
+                        // W
+                    case 119:
+                        PositionCurrent--;
+                        if (PositionCurrent < 0) {
+                            PositionCurrent = PositionMax - 1;
+                        }
+                        break;
+                        // E
+                    case 101:
+                        if (PageCheck(ForumDisplay) || PageCheck(MainForum)||PageCheck(Subscribed))
+                        {
+                            PageLoad($(IDList[PositionCurrent]).attr("href"));
+                        }
+
+                        break;
+                        // N
+                    case 110:
+                        if (PageCheck(ForumDisplay)||PageCheck(Subscribed))
+                        {
+                            PageLoad($(IDList[PositionCurrent]).attr("href") + "&goto=newpost");
+                        }
+                        if (PageCheck(ShowThread))
+                        {
+                            $(IDList).each(function(index) {
+                                if ($(this).attr('id') == $(".postbitnew").attr("id")) {
+                                    PositionCurrent = index;
+                                }
+                            });
+                        }
+                        break;
+                }
+            }
+        }
+
+
+        if (PageCheck(ShowThread)) {
+            CurrenPost = PositionCurrent;
+            PostsMax = PositionMax;
+
+            if (key == 115 || key == 119 || key == 110) {
+                PageScroll($(IDList[PositionCurrent]).attr('id'));
+            }
+        }
+        if (PageCheck(MainForum)) {
+            CurrentForum = PositionCurrent;
+            MaxForums = PositionMax;
+            $('a[href="' + $(Forums[CurrentForum]).attr("href") + '"]').css("color", "red");
+        }
+        if (PageCheck(ForumDisplay)||PageCheck(Subscribed)) {
+            CurrentThread = PositionCurrent;
+            MaxThreads = PositionMax;
+            $('a[href="' + $(Threads[CurrentThread]).attr("href") + '"]').css("color", "red");
+        }
+
+
+        if (PageCheck(ForumDisplay))
+        {
+            Pages = PagesThread;
+        }
+
+        if (Typing == false) {
             switch (key) {
-                // Return
-                case 13:
-                    PageLoad($(Forums[CurrentForum]).attr("href"));
+                    // D
+                case 100:
+                    $(Pages).each(function(index) {
+                        if ($(this).attr('title').indexOf("Next Page") != -1) {
+                            PageLoad($(this).attr('href'));
+                        }
+                    });
                     break;
-                    // S
-                case 115:
-                    CurrentForum++;
-                    if (CurrentForum > MaxForums || CurrentForum == MaxForums) {
-                        CurrentForum = 0;
-                    }
+                    // A
+                case 97:
+                    $(Pages).each(function(index) {
+                        if ($(this).attr('title').indexOf("Prev Page") != -1) {
+                            PageLoad($(this).attr('href'));
+                        }
+                    });
                     break;
-                    // W
-                case 119:
-                    CurrentForum--;
-                    if (CurrentForum < 0) {
-                        CurrentForum = MaxForums - 1;
+                    // Z
+                case 122:
+                    $(Pages).each(function(index) {
+                        if ($(this).attr('title').indexOf("First Page") != -1) {
+                            PageLoad($(this).attr('href'));
+                        }
+                    });
+                    break;
+                    // X
+                case 120:
+                    $(Pages).each(function(index) {
+                        if ($(this).attr('title').indexOf("Last Page") != -1) {
+                            PageLoad($(this).attr('href'));
+                        }
+                    });
+                    break;
+                    // 1
+                case 49:
+                    PageLoad("usercp.php");
+                    break;
+                    // 2
+                case 50:
+                    PageLoad("fp_events.php");
+                    break;
+                    // 3
+                case 51:
+                    PageLoad("fp_popular.php");
+                    break;
+                    // 4
+                case 52:
+                    PageLoad("fp_read.php");
+                    break;
+                    // 5
+                case 53:
+                    PageLoad("search.php");
+                    break;
+                    // 6
+                case 53:
+                    PageLoad(HotForum1);
+                    break;
+                    // 7
+                case 53:
+                    PageLoad(HotForum2);
+                    break;
+                    // 8
+                case 53:
+                    PageLoad(HotForum3);
+                    break;
+                    // 9
+                case 53:
+                    PageLoad(HotForum4);
+                    break;
+                    // 0
+                case 53:
+                    PageLoad(HotForum5);
+                    break;
+                    // Q
+                case 113:
+                    if ($(Exit[Exit.length - 1]).attr("href")!==undefined)
+                    {
+                        PageLoad($(Exit[Exit.length - 1]).attr("href"));
                     }
                     break;
             }
-            $('a[href="' + $(Forums[CurrentForum]).attr("href") + '"]').css("color", "red");
-            console.log(CurrentForum + " " + $(Forums[CurrentForum]).attr("href"));
         }
     });
 });
