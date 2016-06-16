@@ -16,7 +16,7 @@
                                    _"Communism")
 )
 (script-fu-menu-register "script-fu-hoi4" "<Image>/Paradox/HOI4")
-(define (script-fu-hoi4 image drawable inTag inLocation inIdealogy inCrop)
+(define (script-fu-hoi4 image drawable inTag inLocation inIdealogy)
   (let*
     ((idea "democratic"))
 
