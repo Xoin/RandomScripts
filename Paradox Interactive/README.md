@@ -1,0 +1,3 @@
+Quick and dirty script to automatically resize and save flags with GIMP for my random mod nobody will use. Bugs out when you crop and image and don't resize the layer to image size (so do that ;)). For best looks you will have to edit the small ones on your own.
+
+Point SF-DIRNAME to the location where you have your mod. Save it as hoi4.scm in C:\Users\<username>\.gimp-2.8\scripts. It adds a new menu item called Paradox with an item and when you click it you get a nice GUI.
