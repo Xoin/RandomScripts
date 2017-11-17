@@ -172,3 +172,7 @@ body.page-forum .forumblock.is-closed, body.page-forum .threadlistsection .threa
 html, .navbar, .pagnation.postpagnation, .forumcategoryheader, .forumpanel {
     background-image: none;
 }
+
+body.page-forum .threadviewsection .postblock .postuser .user-moderator a, body.page-forum .threadlistsection .threadblock .user-moderator a{
+    color: #00aa00;
+}
