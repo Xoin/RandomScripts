@@ -25,7 +25,7 @@ body.page-forum .forumblock .forumlastpost,
 .forumlastpostavatar {
     background-color: #f5f5f5;
 }
-html {
+#wrapper {
     background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAACJklEQVR4nO3bOZbCMBBF0dcKvP/NsDmiDqBpMPIsqcafgDOdy7GRq0o/t9sNfZmmSXoJlRSdy7rf79JLqKSg9WdU6FUeH+m1J+X1Lb02U94v0ms9ZXadXiuZY5Fey6lgkV4LqWORXrUsYpFeX1nDIr0+s4FFer1lG4v0+ssuLNIL2I9Feh3CIrzXMSxiex3GIrDXGSyiep3EIqTXeSzieV3CIpjXVSwieTXAIoxXGyxieDXDIoBXSyy8ezXGwrVXeyz8enXBwqlXLyw8enXEwp1XXyx8eXXHwpHXCCy8eA3CwoXXOCzsew3FwrjXaCwsewlgYdZLBgubXmJYGPSSxMKalzAWprzksbDjpQILI15asLDgpQgL9V66sNDtpQ4LxV5F/IxHNTq9CtJnPJai0Ot5G6bXnvw/s9JrMx8P+PRaz/zfML1WUtk6pNdS6vus9KpmcVOaXt9Z28Gn1ywbrzvp9Z7td8P0emXXi3R6PbK36pBeHCrRpNexelZwr8PFv8heZyqlYb1OlpVjep2vwQf0utSwiOZ1tbsTyqtBKyyOV5u+YRCvZk3WCF4tO9LuvRq37317tZ91cOzVZTDEq1evKRqXXh1Hjvx59Z3PcubVfZjNk9eIyT83XoPGJH14jZspdeA1dADXutfoaWXTXgKj3Xa9ZObgjXqJHRqw6CV5wsKcl/BxFFte8md3DHnJY2HHSwUWRry0YGHBSxEW6r10YaHb6xfKLSwI423BYAAAAABJRU5ErkJggg==') #bbb;
 }
 body.page-forum .forumpanel,
@@ -162,4 +162,13 @@ body.page-forum .threadviewsection .postblock:first-of-type {
 
 .ql-toolbar.ql-snow.toolbar button {
     color: rgb(0, 0, 0);
+}
+body.page-forum .forumblock.is-closed, body.page-forum .threadlistsection .threadblock.is-closed
+{
+    background-color: #EEE;
+    color: #888;
+}
+
+html, .navbar, .pagnation.postpagnation, .forumcategoryheader, .forumpanel {
+    background-image: none;
 }
