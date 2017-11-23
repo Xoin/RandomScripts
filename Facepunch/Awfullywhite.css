@@ -304,4 +304,15 @@ html,
   background-image: none;
 }
 
+.mdi-home:before {
+    content: "THIS IS THE VERSION AND ISN'T SUPPORTED AND OLD";
+    color: white;
+    margin-left: 20em;
+    width: 20em;
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {  
+  50% { opacity: 0; }
+}
 /*# sourceMappingURL=Awfullywhite.css.map */
