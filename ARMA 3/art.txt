@@ -1,0 +1,29 @@
+ { 
+    [_x,_foreachindex] spawn { 
+       sleep 2 + random 4; 
+       _tk = _this select 0; 
+       _i = _this select 1; 
+       _tk disableAI "AUTOCOMBAT"; 
+       _cnt = 0; 
+      while {alive _tk && _cnt < 1800} do { 
+			_hour = floor daytime;
+			_minute = floor ((daytime - _hour) * 60);
+			
+			_dist = random 20;
+			_dir = random 360;
+			_pos =  getMarkerPos ("xkart"+str((round(random 5))));;
+			_positions = [(_pos select 0) + (sin _dir) * _dist, (_pos select 1) + (cos _dir) * _dist, 0];
+           _tk doArtilleryFire [
+									_positions,
+									_tk currentMagazineTurret [0],
+									2]; 
+           _tk addMagazineTurret [_tk currentMagazineTurret [0], [0], 2]; 
+           _cnt = _cnt +2; 
+			if (_hour > 19 && _hour < 6 ) then {
+				sleep 2 + random 60*60; 
+			} else {
+				sleep 2 + (random [10000,60000,154000]); 
+			};
+      }; 
+  }; 
+} forEach synchronizedObjects this; 
